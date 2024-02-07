@@ -1,4 +1,5 @@
 import dist
+import temp
 
 
 def main():
@@ -20,7 +21,7 @@ def main():
       case "1":
         result = dist.main()
       case "2":
-        print("Temperature")
+        result = temp.main()
       case "3":
         print("Speed")
       case "4":
@@ -29,7 +30,7 @@ def main():
         print("Invalid choice\n")
     
     if result is not None:
-      print(f"The final value is {result[0]} {result[1]} \n")
+      print("The final value is {:.2f}".format(result[0]), "|", "{:.2f}".format(result[1]), "\n")
 
 if __name__ == "__main__":
   main()
