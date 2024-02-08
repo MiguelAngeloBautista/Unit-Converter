@@ -1,6 +1,7 @@
 import dist
 import temp
-
+import speed
+import weight
 
 def main():
   while True:
@@ -8,12 +9,12 @@ def main():
     print("2. Temperature")
     print("3. Speed")
     print("4. Weight")
-    print("0. Quit")
+    print("q. Quit")
 
     # get input from user
     choice = input("\nEnter your choice: ")
 
-    if choice == "0":
+    if choice.lower() == "q":
       print("Goodbye!")
       break
 
@@ -23,14 +24,15 @@ def main():
       case "2":
         result = temp.main()
       case "3":
-        print("Speed")
+        result = speed.main()
       case "4":
-        print("Weight")
+        result = weight.main()
       case _:
         print("Invalid choice\n")
     
     if result is not None:
-      print("The final value is {:.2f}".format(result[0]), "|", "{:.2f}".format(result[1]), "\n")
+      print("{:.2f}".format(result[0]), "is equal to", "{:.2f}".format(result[1]), "\n")
+
 
 if __name__ == "__main__":
   main()
