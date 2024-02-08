@@ -1,3 +1,4 @@
+#pylint: disable=all
 from unittest import TestCase
 from unittest.mock import patch
 import unittest

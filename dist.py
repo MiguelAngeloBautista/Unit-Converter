@@ -1,3 +1,4 @@
+# pylint: disable=W0311,C0301,C0114
 from pint import UnitRegistry
 
 def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:

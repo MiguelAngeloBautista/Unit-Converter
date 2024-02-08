@@ -1,3 +1,4 @@
+# pylint: disable=W0311,C0301
 import dist
 import temp
 import speed
