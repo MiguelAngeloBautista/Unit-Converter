@@ -1,4 +1,8 @@
 # pylint: disable=W0311,C0301
+"""
+This module provides a function to convert speeds to different units.
+"""
+
 from pint import UnitRegistry
 
 def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
@@ -12,7 +16,7 @@ def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
   '''
   # Create a Pint UnitRegistry
   ureg = UnitRegistry()
-  Q_ = ureg.Quantity
+  q_ = ureg.Quantity
 
   while True:
     # Define the available speed units
@@ -51,7 +55,7 @@ def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
 
     # Get the initial speed unit based on the user's choice
     initial_unit = list(speed_units.values())[init_speed - 1]
-    initial_value = Q_(speed, initial_unit)
+    initial_value = q_(speed, initial_unit)
 
     # Get the converted speed unit based on the user's choice
     converted_unit = list(speed_units.values())[converted_speed - 1]
@@ -64,4 +68,4 @@ def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
 
 if __name__ == "__main__":
   result = main()
-  print("The final value is {:.2f}".format(result), "\n")
+  print(f"{result[0]:.2f} is equal to {result[1]:.2f}\n")

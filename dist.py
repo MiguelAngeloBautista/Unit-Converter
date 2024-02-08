@@ -1,4 +1,8 @@
-# pylint: disable=W0311,C0301,C0114
+# pylint: disable=W0311,C0301
+"""
+This module provides a function to convert values between different units of measurement.
+"""
+
 from pint import UnitRegistry
 
 def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:

@@ -1,18 +1,22 @@
 # pylint: disable=W0311,C0301
+'''
+This module provides a function for converting weights to different units.
+'''
+
 from pint import UnitRegistry
 
 def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
   '''
-    This function allows the user to convert weights to their desired units
-    It prompts the user for the initial weight unit, the converted weight unit, and the weight value
-    The function then performs the conversion and returns the final converted value and unit.
+  This function allows the user to convert weights to their desired units.
+  It prompts the user for the initial weight unit, the converted weight unit, and the weight value.
+  The function then performs the conversion and returns the final converted value and unit.
 
-    ### Returns:
-        initial_value, converted_weight: A tuple containing the initial weight and the converted weight in a Pint Quantity format. e.g <Quantity(30.0, 'kilogram')>
+  ### Returns:
+      initial_value, converted_weight: A tuple containing the initial weight and the converted weight in a Pint Quantity format. e.g <Quantity(30.0, 'kilogram')>
   '''
   # Create a Pint UnitRegistry
   ureg = UnitRegistry()
-  Q_ = ureg.Quantity
+  q_ = ureg.Quantity
 
   while True:
     # Define the available weight units
@@ -54,17 +58,15 @@ def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
 
     # Get the initial weight unit based on the user's choice
     initial_unit = list(weight_units.values())[init_weight - 1]
-    initial_value = Q_(weight, initial_unit)
+    initial_value = q_(weight, initial_unit)
 
     # Get the converted weight unit based on the user's choice
     converted_unit = list(weight_units.values())[converted_weight - 1]
 
     # Convert the weight to the chosen converted unit
     converted_weight = initial_value.to(converted_unit)
-    
     return initial_value, converted_weight
-  
 
 if __name__ == "__main__":
   result = main()
-  print("The final value is {:.2f}".format(result[0]), "|", "{:.2f}".format(result[1]), "\n")
+  print(f"{result[0]:.2f} is equal to {result[1]:.2f}\n")

@@ -1,4 +1,8 @@
 # pylint: disable=W0311,C0301
+"""
+This module provides a simple unit converter for temperatures.
+"""
+
 from pint import UnitRegistry
 
 def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
@@ -12,7 +16,7 @@ def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
   '''
   # Create a Pint UnitRegistry
   ureg = UnitRegistry()
-  Q_ = ureg.Quantity
+  q_ = ureg.Quantity
 
   while True:
 # Define the available temperature units
@@ -48,13 +52,11 @@ def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
     initial_unit = list(temperature_units.values())[init_temp - 1]
     converted_unit = list(temperature_units.values())[conv_temp - 1]
 
-    initial_value = Q_(temperature, initial_unit)
+    initial_value = q_(temperature, initial_unit)
     converted_temperature = initial_value.to(converted_unit)
 
     return initial_value, converted_temperature
-  
-
 
 if __name__ == "__main__":
   result = main()
-  print("The final value is {:.2f}".format(result[0]), "|", "{:.2f}".format(result[1]), "\n")
+  print(f"{result[0]:.2f} is equal to {result[1]:.2f}\n")
