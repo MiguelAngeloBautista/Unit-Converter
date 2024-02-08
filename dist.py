@@ -1,57 +1,69 @@
 from pint import UnitRegistry
-from typing import List, Union
-ureg = UnitRegistry()
 
-
-INPUT_PROMPT = "Enter your choice: "
-INVALID_CHOICE_MSG = "Invalid Units. Please choose from the above list\n"
-
-metric_units = {"km": ureg.kilometers, "m": ureg.meters, "cm": ureg.centimeters, "mm": ureg.millimeters, "um": ureg.micrometers, "nm": ureg.nanometers}
-imperial_units = {"mi": ureg.miles, "yd": ureg.yards, "ft": ureg.feet, "in": ureg.inches}
-
-units = {**metric_units, **imperial_units}
-
-def main() -> list[Union[float, str]]:
-  """
-  This function allows the user to convert values between different units of measurement.
+def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
+  ''' 
+  function allows the user to convert values between different units of measurement.
   It prompts the user for the initial unit, converted unit, and the value to be converted.
   The function then performs the conversion and returns the final converted value and unit.
   
   ### Returns:
-      [final_value.magnitude, final_value.units]: The final converted value(float) and unit(str) as a list
+      initial_value, converted_value: A tuple containing the initial distance and the converted distance in a Pint Quantity format. e.g <Quantity(30.0, 'meter')>
   
-  """
+  '''
+  # Create a Pint UnitRegistry
+  ureg = UnitRegistry()
 
   while True:
-    # Show the user the available units
-    print([x for x in metric_units.keys()])
-    print([x for x in imperial_units.keys()])
-    print("q. Back")
+    # Define the available units
+    units = {
+      'Meter': ureg.meter,
+      'Kilometer': ureg.kilometer,
+      'Centimeter': ureg.centimeter,
+      'Millimeter': ureg.millimeter,
+      'Mile': ureg.mile,
+      'Yard': ureg.yard,
+      'Foot': ureg.foot,
+      'Inch': ureg.inch
+    }
 
-    # get input from user
-    initial_unit = input("\nEnter Initial Unit: ")
-    if initial_unit.lower() == "q":
-      break
-    final_unit = input("Enter Converted Unit: ")
-    if final_unit.lower() == "q":
-      break
+    # Prompt the user to choose the initial unit
+    print("Available units:")
+    for index, unit in enumerate(units.keys()):
+      print(f"{index + 1}. {unit}")
 
-    if initial_unit not in units.keys() or final_unit not in units.keys():
-      print(INVALID_CHOICE_MSG)
+    init_unit = int(input("Enter the number corresponding to the initial unit: "))
+    if init_unit not in range(1, len(units) + 1):
+      print("Invalid choice. Please choose a number from the list")
       continue
 
-    initial_value = input("Enter Value: ")
+    # Prompt the user to choose the converted unit
+    print("Available converted units:")
+    for index, unit in enumerate(units.keys()):
+      print(f"{index + 1}. {unit}")
+
+    converted_unit = int(input("Enter the number corresponding to the converted unit: "))
+    if converted_unit not in range(1, len(units) + 1):
+      print("Invalid choice. Please choose a number from the list")
+      continue
+
+    value = input("Enter the value: ")
     try:
-      initial_value = float(initial_value)
+      value = float(value)
     except ValueError:
       print("Invalid Value. Please enter numbers only")
       continue
 
-    # Convert value int Pint quantity
-    initial_value = initial_value * units[initial_unit]
+    # Get the initial unit based on the user's choice
+    initial_unit = list(units.values())[init_unit - 1]
+    initial_value = value * initial_unit
 
-    final_value = initial_value.to(units[final_unit])
-    return [final_value.magnitude, final_value.units]
+    # Get the converted unit based on the user's choice
+    converted_unit = list(units.values())[converted_unit - 1]
+
+    # Convert the value to the chosen converted unit
+    converted_value = initial_value.to(converted_unit)
+
+    return initial_value, converted_value
 
 if __name__ == "__main__":
   main()

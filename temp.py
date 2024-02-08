@@ -1,12 +1,20 @@
-import pint
+from pint import UnitRegistry
 
-def main():
+def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
+  '''
+    This function allows the user to convert temperatures to their desired units
+    It prompts the user for the initial temperature unit, the converted temperature unit, and the temperature value
+    The function then performs the conversion and returns the final converted value and unit.
+
+    ### Returns:
+        initial_value, converted_temperature: A tuple containing the initial temperature and the converted temperature in a Pint Quantity format. e.g <Quantity(30.0, 'degC')>
+  '''
+  # Create a Pint UnitRegistry
+  ureg = UnitRegistry()
+  Q_ = ureg.Quantity
+
   while True:
-    # Create a Pint UnitRegistry
-    ureg = pint.UnitRegistry()
-    Q_ = ureg.Quantity
-
-    # Define the available temperature units
+# Define the available temperature units
     temperature_units = {
       'Celsius': ureg.degC,
       'Fahrenheit': ureg.degF,
@@ -23,6 +31,11 @@ def main():
       print("Invalid choice. Please choose a number from the list")
       continue
 
+    conv_temp = int(input("Enter the number corresponding to the converted temperature unit: "))
+    if conv_temp not in range(1, len(temperature_units) + 1):
+      print("Invalid choice. Please choose a number from the list")
+      continue
+
     temperature = input("Enter the temperature value: ")
     try:
         temperature = float(temperature)
@@ -32,17 +45,12 @@ def main():
 
     # Get the initial temperature unit based on the user's choice
     initial_unit = list(temperature_units.values())[init_temp - 1]
-    initial_value = Q_(temperature, initial_unit)
+    converted_unit = list(temperature_units.values())[conv_temp - 1]
 
-    converted = []
-    # Convert the temperature to other available units
-    for unit_name, unit in temperature_units.items():
-      if unit != initial_unit:
-        converted_temperature = initial_value.to(unit)
-        converted.append((converted_temperature))
-        # print(f"{temperature} {initial_unit} is equal to {converted_temperature}")
-    
-    return converted
+    initial_value = Q_(temperature, initial_unit)
+    converted_temperature = initial_value.to(converted_unit)
+
+    return initial_value, converted_temperature
   
 
 
