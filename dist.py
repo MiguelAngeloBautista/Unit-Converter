@@ -31,13 +31,13 @@ def main(i_value: int, i_unit: str, c_unit: str) -> tuple[UnitRegistry.Quantity,
       'Inch': ureg.inch
     }
 
-    
+    # Prompt the user to choose the initial unit
     try:
       value = float(i_value)
     except ValueError:
       print("Invalid Value. Please enter numbers only")
       continue
-    
+
     # Get the initial unit based on the user's choice
     initial_unit = units[i_unit]
     initial_value = value * initial_unit

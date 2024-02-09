@@ -5,7 +5,7 @@ import unittest
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from dist import main
+from dist import main_console as main
 
 class TestDistanceConverter(TestCase):
     @patch('builtins.input', side_effect=['1', '2', '100'])
