@@ -5,7 +5,52 @@ This module provides a function to convert values between different units of mea
 
 from pint import UnitRegistry
 
-def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
+def main(i_value: int, i_unit: str, c_unit: str) -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
+  ''' 
+  function allows the user to convert values between different units of measurement.
+  It prompts the user for the initial unit, converted unit, and the value to be converted.
+  The function then performs the conversion and returns the final converted value and unit.
+  
+  ### Returns:
+      initial_value, converted_value: A tuple containing the initial distance and the converted distance in a Pint Quantity format. e.g <Quantity(30.0, 'meter')>
+  
+  '''
+  # Create a Pint UnitRegistry
+  ureg = UnitRegistry()
+
+  while True:
+    # Define the available units
+    units = {
+      'Meter': ureg.meter,
+      'Kilometer': ureg.kilometer,
+      'Centimeter': ureg.centimeter,
+      'Millimeter': ureg.millimeter,
+      'Mile': ureg.mile,
+      'Yard': ureg.yard,
+      'Foot': ureg.foot,
+      'Inch': ureg.inch
+    }
+
+    
+    try:
+      value = float(i_value)
+    except ValueError:
+      print("Invalid Value. Please enter numbers only")
+      continue
+    
+    # Get the initial unit based on the user's choice
+    initial_unit = units[i_unit]
+    initial_value = value * initial_unit
+
+    # Get the converted unit based on the user's choice
+    converted_unit = units[c_unit]
+
+    # Convert the value to the chosen converted unit
+    converted_value = initial_value.to(converted_unit)
+
+    return converted_value.magnitude
+
+def main_console():
   ''' 
   function allows the user to convert values between different units of measurement.
   It prompts the user for the initial unit, converted unit, and the value to be converted.
@@ -71,4 +116,7 @@ def main() -> tuple[UnitRegistry.Quantity, UnitRegistry.Quantity]:
     return initial_value, converted_value
 
 if __name__ == "__main__":
-  main()
+  result = main(1, 'Kilometer', 'Meter')
+  print(result)
+  result = main_console()
+  print(f"{result[0]:.2f} is equal to {result[1]:.2f}\n")
