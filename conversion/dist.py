@@ -65,4 +65,3 @@ if __name__ == "__main__":
   print(result)
   result = main_console()
   print(f"{result[0]:.2f} is equal to {result[1]:.2f}\n")
-  
