@@ -3,6 +3,7 @@
 This module contains the main function for the unit converter program.
 """
 import sys
+import click
 from PyQt6.QtWidgets import QApplication, QMainWindow  # dont mind this error, it is a false positive. works anyway. E0611
 from ui_form import Ui_MainWindow
 
@@ -11,7 +12,7 @@ import conversion
 # Import Utilities
 from utils.truncate import truncate
 
-def console():
+def console_app():
   """
   Console function for the unit converter program in console.
   Displays a menu of conversion options and prompts the user for input.
@@ -123,9 +124,19 @@ class UnitConverterApp(QMainWindow):
       self.ui.cb_convert.clear()
       self.ui.cb_convert.addItems(conversion.weight_util.units.keys())
 
+@click.command(context_settings=dict(ignore_unknown_options=True, allow_extra_args=True))
+@click.option("--console", is_flag=True, help="Run the unit converter in console mode.")
+def run(console):
+  """
+  Run the unit converter program.
+  """
+  if console:
+    console_app()
+  else:
+    app = QApplication(sys.argv)
+    window = UnitConverterApp()
+    window.show()
+    sys.exit(app.exec())
+
 if __name__ == "__main__":
-  # main()
-  app = QApplication(sys.argv)
-  window = UnitConverterApp()
-  window.show()
-  sys.exit(app.exec())
+  run() #pylint: disable=no-value-for-parameter
