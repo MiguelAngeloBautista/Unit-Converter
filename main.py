@@ -124,7 +124,7 @@ class UnitConverterApp(QMainWindow):
       self.ui.cb_convert.clear()
       self.ui.cb_convert.addItems(conversion.weight_util.units.keys())
 
-@click.command(context_settings=dict(ignore_unknown_options=True, allow_extra_args=True))
+@click.command(context_settings={"ignore_unknown_options" : True, "allow_extra_args" : True})
 @click.option("--console", is_flag=True, help="Run the unit converter in console mode.")
 def run(console):
   """
