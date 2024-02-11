@@ -5,7 +5,7 @@ import unittest
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from conversion.temp import main
+from conversion.temp import main_console as main
 
 class TestTemperatureConverter(TestCase):
     @patch('builtins.input', side_effect=['1', '2', '100'])

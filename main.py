@@ -8,6 +8,8 @@ from ui_form import Ui_MainWindow
 
 # Import the conversion functions
 import conversion
+# Import Utilities
+from utils.truncate import truncate
 
 def console():
   """
@@ -56,6 +58,13 @@ class UnitConverterApp(QMainWindow):
     # Set up the UI from the generated code
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
+    self.ui.rb_dist.setChecked(True)
+
+    # Connext radio buttons to update combobox units
+    self.ui.rb_dist.toggled.connect(self.update_combobox)
+    self.ui.rb_temp.toggled.connect(self.update_combobox)
+    self.ui.rb_speed.toggled.connect(self.update_combobox)
+    self.ui.rb_weight.toggled.connect(self.update_combobox)
 
     # Connect the button click to the conversion function
     self.ui.pushButton.clicked.connect(self.convert_units)
@@ -71,26 +80,48 @@ class UnitConverterApp(QMainWindow):
       None
     """
     # Add your unit conversion logic here
-    input_value = self.ui.initialValue.value()
-    input_unit = self.ui.cb_initial.currentText()
-    output_unit = self.ui.cb_convert.currentText()
-    current_tab = self.ui.tabWidget.currentWidget().objectName()
-    print(current_tab)
+    input_value: float = self.ui.initialValue.value()
+    input_unit: str = self.ui.cb_initial.currentText()
+    output_unit: str = self.ui.cb_convert.currentText()
+    converted_value: float = 0.00
 
-    # Perform the conversion and update the output spin box
+    if self.ui.rb_dist.isChecked():
+      converted_value = conversion.dist_util.convert(input_value, input_unit, output_unit)
+    elif self.ui.rb_temp.isChecked():
+      converted_value = conversion.temp_util.convert(input_value, input_unit, output_unit)
+    elif self.ui.rb_speed.isChecked():
+      converted_value = conversion.speed_util.convert(input_value, input_unit, output_unit)
+    elif self.ui.rb_weight.isChecked():
+      converted_value = conversion.weight_util.convert(input_value, input_unit, output_unit)
 
-    # TODO - Add the correct tab names in ui_form from tab 1 to 4 to proper names pylint: disable=W0511
-    match current_tab:
-      case "tab":
-        converted_value = conversion.dist_util.convert(input_value, input_unit, output_unit)
-      case "temp":
-        converted_value = conversion.temp_util.convert(input_value, input_unit, output_unit)
-      case "speed":
-        converted_value = conversion.speed_util.convert(input_value, input_unit, output_unit)
-      case "weight":
-        converted_value = conversion.weight_util.convert(input_value, input_unit, output_unit)
+    sanitised_value = truncate(converted_value, 6)
+    self.ui.l_converted.setText(str(sanitised_value))
 
-    self.ui.convertedValue.setValue(converted_value)
+  def update_combobox(self):
+    """
+    Update the combobox based on the current tab.
+    """
+
+    if self.ui.rb_dist.isChecked():
+      self.ui.cb_initial.clear()
+      self.ui.cb_initial.addItems(conversion.dist_util.units.keys())
+      self.ui.cb_convert.clear()
+      self.ui.cb_convert.addItems(conversion.dist_util.units.keys())
+    elif self.ui.rb_temp.isChecked():
+      self.ui.cb_initial.clear()
+      self.ui.cb_initial.addItems(conversion.temp_util.units.keys())
+      self.ui.cb_convert.clear()
+      self.ui.cb_convert.addItems(conversion.temp_util.units.keys())
+    elif self.ui.rb_speed.isChecked():
+      self.ui.cb_initial.clear()
+      self.ui.cb_initial.addItems(conversion.speed_util.units.keys())
+      self.ui.cb_convert.clear()
+      self.ui.cb_convert.addItems(conversion.speed_util.units.keys())
+    elif self.ui.rb_weight.isChecked():
+      self.ui.cb_initial.clear()
+      self.ui.cb_initial.addItems(conversion.weight_util.units.keys())
+      self.ui.cb_convert.clear()
+      self.ui.cb_convert.addItems(conversion.weight_util.units.keys())
 
 if __name__ == "__main__":
   # main()

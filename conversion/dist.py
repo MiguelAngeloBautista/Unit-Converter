@@ -24,8 +24,8 @@ class Distance(Convert):
   def __init__(self) -> None:
     super().__init__()
     self.units = {
-      'Meter': self.ureg.meter,
       'Kilometer': self.ureg.kilometer,
+      'Meter': self.ureg.meter,
       'Centimeter': self.ureg.centimeter,
       'Millimeter': self.ureg.millimeter,
       'Mile': self.ureg.mile,
